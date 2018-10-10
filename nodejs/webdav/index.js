@@ -11,15 +11,13 @@ const davHandler = jsDAV.mount({
   server: app,
   standalone: false
 });
-app.use(function (req, res, next) {
-  if (req.url.search(/^\/cache/) >= 0) {
-    davHandler.exec(req, res);
-  } else {
-    next();
-  }
+
+app.all('/cache/*', (req, res) => {
+  davHandler.exec(req, res);
 });
 
-app.get('/', function (req, res) {
+//just send ok for root path
+app.get('/', (req, res) => {
   res.send('OK');
 });
 
